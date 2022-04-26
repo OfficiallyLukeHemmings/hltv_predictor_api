@@ -19,7 +19,7 @@ def training_data_import(filename='training_data.csv'):
     csv_data = pd.read_csv(filename)
     
     # Popping pd.DataFrame of 'Game Score' values from csv_data
-    y = csv_data.pop('Game Score')
+    y = csv_data.pop('gameScore')
     # pd.DataFrame of csv_data 
     X = csv_data
     
@@ -46,15 +46,9 @@ class Predictor():
         """_summary_
 
         Args:
-            data (_type_): _description_
+            data (_type_): _description_json
 
         Returns:
             _type_: _description_
         """
-        
-        #TODO Data will come in form of list / tuple
-        return 
-    
-clf = Predictor()
-clf.train()
-clf.pred("blo")
+        return self.clf.predict(data).item()
