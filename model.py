@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.ensemble import GradientBoostingClassifier
 
-def training_data_import(filename='training_data.csv'):
+def training_data_import(filename='training_data_pos.csv'):
     """Importing of the training data and returning of pd.DataFrames (y and X)
     required for training the ML model.
 
