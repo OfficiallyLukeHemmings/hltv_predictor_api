@@ -2,9 +2,14 @@ from flask import Flask, request, Response, jsonify
 import pandas as pd
 import model # model.py import
 
-# Initialising the ML model, and training the model ready for predictions.
-clf = model.Predictor()
-clf.train()
+# Initialising the ML models, and training the models ready for predictions.
+# pos meaning positively favouring neutral scores (already converted in csv)
+posClf = model.Predictor()
+posClf.train()
+
+# neg meaning negatively favouring neutral scores (already converted in csv)
+negClf = model.Predictor(False)
+negClf.train()
 
 # Flask API
 app = Flask(__name__)
@@ -15,7 +20,10 @@ def index():
         game_json = request.json        
         df = pd.DataFrame([game_json])
         
-        prediction = jsonify({'prediction': clf.pred(df)})
+        prediction = jsonify({
+            'optimistic-prediction': posClf.pred(df),
+            'pessimistic-prediction': negClf.pred(df)
+        })
         # status code: 200 OK - The resource describing the result of the 
         # action is transmitted in the message body.
         return prediction, 200

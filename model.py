@@ -29,16 +29,20 @@ def training_data_import(filename='training_data_pos.csv'):
 class Predictor():
     """_summary_
     """
-    def __init__(self):
+    def __init__(self, optimistic=True):
         """_summary_
         """
         self.clf = GradientBoostingClassifier(n_estimators=100,
                                               learning_rate=1.0, max_depth=1)
+        self.optimistic = optimistic
     
     def train(self):
         """_summary_
         """
-        X_train, y_train = training_data_import()
+        if self.optimistic:
+            X_train, y_train = training_data_import()
+        else:
+            X_train, y_train = training_data_import('training_data_neg.csv')
         
         self.clf.fit(X_train, y_train)
         
