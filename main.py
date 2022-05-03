@@ -1,5 +1,6 @@
 from flask import Flask, request, Response, jsonify
 import pandas as pd
+from flask_cors import CORS
 import model # model.py import
 
 # Initialising the ML models, and training the models ready for predictions.
@@ -13,6 +14,8 @@ negClf.train()
 
 # Flask API
 app = Flask(__name__)
+# Addressing CORS errors from frontend requests
+CORS(app)
 
 @app.route('/', methods=['POST'])
 def index():
