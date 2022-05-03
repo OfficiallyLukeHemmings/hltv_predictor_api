@@ -20,9 +20,16 @@ CORS(app)
 @app.route('/', methods=['POST'])
 def index():
     try:
+        # Get game details JSON from POST request.
         game_json = request.json        
+        # Converting game_json to Pandas Dataframe ready for prediction
         df = pd.DataFrame([game_json])
         
+        # Creating a JSON of an optimistic and pessimistic prediction using the 
+        # corresponding trained models ready to return.
+        # Example format:
+        #   prediction = { 'optimistic-prediction': 1,
+        #                   'pessimistic-prediction': 0 }
         prediction = jsonify({
             'optimistic-prediction': posClf.pred(df),
             'pessimistic-prediction': negClf.pred(df)

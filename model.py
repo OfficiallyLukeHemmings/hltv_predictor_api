@@ -27,32 +27,58 @@ def training_data_import(filename='training_data_pos.csv'):
 
 
 class Predictor():
-    """_summary_
+    """A Machine Learning Model class using sklearn's Gradient 
+    Boosting Classifier (GBC). 
+    
+    Attributes:
+        clf = The base GBC model for use in this class' methods 
+            (train and pred)
+        optimistic = Bool indicating whether the class instance should take
+            an optimistic or pessimistic approach to evaluating games.
+            Implemented by training using  the corresponding training data.
+            Optimistic training data, for the purposes of training, has merged
+            neutral response scores with positive response scores - i.e. in
+            the hopes that neutral games are ones to be enjoyed. While the
+            pessimistic training data has merged neutral scores with negatives
+            instead, taking a more reserved approach for predictions.
     """
     def __init__(self, optimistic=True):
-        """_summary_
+        """Optional Arg: 
+            optimistic = Bool (defaulting to true)
         """
         self.clf = GradientBoostingClassifier(n_estimators=100,
                                               learning_rate=1.0, max_depth=1)
         self.optimistic = optimistic
     
     def train(self):
-        """_summary_
+        """Class method used for training the ML model. The training data used
+        is dependent on the optimistic attribute (bool), allowing the model to 
+        take either a pessimistic or optimistic approach to predictions.
         """
+        # Preparing the data for training
+        # X_train and y_train = Pandas DataFrames
         if self.optimistic:
             X_train, y_train = training_data_import()
         else:
             X_train, y_train = training_data_import('training_data_neg.csv')
         
+        # Training the model
         self.clf.fit(X_train, y_train)
         
     def pred(self, data):
-        """_summary_
-
+        """Class method for making predictions given a DataFrame outline of the 
+        game to be evaluated.
+            
         Args:
-            data (_type_): _description_json
+            data (Pandas DataFrame): ...of the following: 
+                - eventType (Int): Where... 0=Online, 1=LAN, 2=Major event
+                - team1Rank (Int): Team 1's World Ranking
+                - team2Rank (Int): Team 2's World Ranking 
+                - bettingOddsDiff (Float): Float of average betting odds 
+                    difference as per the HLTV match page. 
 
         Returns:
-            _type_: _description_
+            Predicted Enjoyment Value: (0=Not predicted to enjoy, 
+                                            1=Predicted to enjoy)
         """
         return self.clf.predict(data).item()
