@@ -78,7 +78,7 @@ class Predictor():
                     difference as per the HLTV match page. 
 
         Returns:
-            Predicted Enjoyment Value: (0=Not predicted to enjoy, 
+            Predicted Enjoyability Value: (0=Not predicted to enjoy, 
                                             1=Predicted to enjoy)
         """
         return self.clf.predict(data).item()
