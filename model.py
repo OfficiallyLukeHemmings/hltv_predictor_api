@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
 
 def training_data_import(filename='training_data_pos.csv'):
     """Importing of the training data and returning of pd.DataFrames (y and X)
@@ -27,12 +27,12 @@ def training_data_import(filename='training_data_pos.csv'):
 
 
 class Predictor():
-    """A Machine Learning Model class using sklearn's Gradient 
-    Boosting Classifier (GBC). 
+    """A Machine Learning Model class using sckit-learn's Logistic Regression 
+    algorithm (actually a classifier in sklearn). 
     
     Attributes:
-        clf = The base GBC model for use in this class' methods 
-            (train and pred)
+        clf = The base logistic regression model for use in this class' 
+            methods (train and pred)
         optimistic = Bool indicating whether the class instance should take
             an optimistic or pessimistic approach to evaluating games.
             Implemented by training using  the corresponding training data.
@@ -46,7 +46,7 @@ class Predictor():
         """Optional Arg: 
             optimistic = Bool (defaulting to true)
         """
-        self.clf = GradientBoostingClassifier(learning_rate=0.01)
+        self.clf = LogisticRegression()
         self.optimistic = optimistic
     
     def train(self):
