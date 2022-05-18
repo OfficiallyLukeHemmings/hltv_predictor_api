@@ -46,8 +46,7 @@ class Predictor():
         """Optional Arg: 
             optimistic = Bool (defaulting to true)
         """
-        self.clf = GradientBoostingClassifier(n_estimators=100,
-                                              learning_rate=1.0, max_depth=1)
+        self.clf = GradientBoostingClassifier(learning_rate=0.01)
         self.optimistic = optimistic
     
     def train(self):
